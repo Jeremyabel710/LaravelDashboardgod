@@ -3,11 +3,11 @@
 @section('title', 'Editar Departamento')
 
 @section('content_header')
-    <h1>Editar Departamento</h1>
+    <h1>Editar Etiqueta</h1>
 @stop
 
 @section('content')
-<div class="container">
+<div class="">
     <form action="{{ route('departamentos.update', $departamento->id) }}" method="POST">
         @csrf
         @method('PUT')

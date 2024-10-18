@@ -18,17 +18,22 @@ Route::middleware([
 ])->group(function () {
     // Redirige a la página de índice de alertas después del login
     Route::get('/dashboard', function () {
-        return redirect()->route('alertas.index');
+        return redirect()->route('usuarios.index');
     })->name('dashboard');  
 
     // Rutas para el controlador de departamentos
     Route::resource('departamentos', DepartamentoController::class);
+
+    // En tu archivo web.php
+    Route::post('/alertas/enviar/{id}', [AlertasController::class, 'enviar'])->name('alertas.enviar');
 
     // Rutas para el controlador de usuarios
     Route::resource('usuarios', UsuarioController::class);
 
     // Rutas para el controlador de alertas
     Route::resource('alertas', AlertasController::class);
+    Route::post('/alertas', [AlertasController::class, 'store'])->name('alertas.store');
+
 
     // Ruta para enviar alertas a departamentos o usuarios
     Route::post('alertas/enviar/{id}', [AlertasController::class, 'enviar'])->name('alertas.enviar');
