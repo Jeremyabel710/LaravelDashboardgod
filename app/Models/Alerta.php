@@ -3,16 +3,32 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class Alerta extends Model
 {
+    
     protected $table = 'alertas';
 
     // Define los atributos que son asignables en masa
-    protected $fillable = ['mensaje', 'fecha_creacion'];
-    
-    // Desactiva los timestamps
+    protected $fillable = [
+        'nombre',
+        'mensaje',
+        'fecha_creacion',
+        'condicion',
+        'fecha_envio_programada',
+        'archivo',
+    ];
+
+    // Desactiva los timestamps, ya que no se están utilizando
     public $timestamps = false;
+
+    // Define los atributos que deben ser tratados como fechas
+    protected $dates = [
+        'fecha_creacion',
+        'fecha_envio_programada', // Asegúrate de que esté aquí
+    ];
 
     // Relación muchos a muchos con el modelo Departamento
     public function departamentos()
@@ -24,5 +40,14 @@ class Alerta extends Model
     public function usuarios()
     {
         return $this->belongsToMany(Usuario::class, 'alertas_usuario', 'alerta_id', 'usuario_id');
+    }
+    
+    // Método para actualizar la condición de la alerta a 'enviada'
+    public function marcarComoEnviada()
+    {
+        $this->update([
+            'condicion' => 'enviada',
+            'fecha_envio_programada' => now(), // Establecer la fecha y hora actual al momento de enviar
+        ]);
     }
 }

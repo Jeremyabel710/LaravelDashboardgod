@@ -3,17 +3,17 @@
 @section('title', 'Departamentos')
 
 @section('content_header')
-    <h1>Lista de Departamentos</h1>
+    <h1>Lista de Roles</h1>
 @stop   
 
 @section('content')
-    <a href="{{ route('departamentos.create') }}" class="btn btn-primary mb-3">Nuevo Departamento</a>
+    <a href="{{ route('departamentos.create') }}" class="btn btn-primary mb-3">Nuevo Rol</a>
 
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre del Departamento</th>
+                <th>Etiqueta</th>
                 <th>Acciones</th>
             </tr>
         </thead>

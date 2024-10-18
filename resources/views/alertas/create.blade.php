@@ -1,65 +1,88 @@
-@extends('adminlte::page')
-
-@section('title', 'Crear Alerta')
-
-@section('content_header')
-    <h1>Crear Alerta</h1>
-@stop
-
-@section('content')
-    <form action="{{ route('alertas.store') }}" method="POST">
+<div class="modal-header">
+    <h5 class="modal-title" id="createAlertModalLabel">Crear Nueva Alerta</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form id="createAlertForm" method="POST" action="{{ route('alertas.store') }}" enctype="multipart/form-data"> <!-- Añadir acción aquí -->
         @csrf
-
+        <div class="form-group">
+            <label for="nombre">Nombre de la Alerta</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
         <div class="form-group">
             <label for="mensaje">Mensaje</label>
-            <input type="text" name="mensaje" class="form-control" id="mensaje" value="{{ old('mensaje') }}">
+            <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
         </div>
-
+        <div class="form-group">
+            <label for="fecha_envio_programada">Fecha de Envío Programada</label>
+            <input type="datetime-local" class="form-control" id="fecha_envio_programada" name="fecha_envio_programada" required>
+        </div>
         <div class="form-group">
             <label for="tipo_alerta">Tipo de Alerta</label>
-            <select name="tipo_alerta" id="tipo_alerta" class="form-control">
-                <option value="" disabled selected>Seleccione un tipo</option>
-                <option value="departamento">Departamento</option>
-                <option value="usuario">Usuario</option>
+            <select class="form-control" id="tipo_alerta" name="tipo_alerta" required>
+                <option value="" disabled selected>Seleccione un tipo de alerta</option>
+                <option value="usuarios">Usuarios</option>
+                <option value="departamentos">Departamentos</option>
             </select>
         </div>
-
-        <div id="departamentos_field" class="form-group d-none">
-            <label for="departamentos">Departamentos</label>
-            <select name="departamentos[]" id="departamentos" class="form-control" multiple>
-                @foreach($departamentos as $departamento)
-                    <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div id="usuarios_field" class="form-group d-none">
-            <label for="usuarios">Usuarios</label>
-            <select name="usuarios[]" id="usuarios" class="form-control" multiple>
+        <div class="form-group" id="usuarios" style="display: none;">
+            <label>Seleccionar Usuarios</label>
+            <div id="usuariosList">
                 @foreach($usuarios as $usuario)
-                    <option value="{{ $usuario->id }}">{{ $usuario->nombre }}</option>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="usuario{{ $usuario->id }}" name="usuarios[]" value="{{ $usuario->id }}">
+                    <label class="form-check-label" for="usuario{{ $usuario->id }}">
+                        {{ $usuario->nombre }}
+                    </label>
+                </div>
                 @endforeach
-            </select>
+            </div>
         </div>
-
+        <div class="form-group" id="departamentos" style="display: none;">
+            <label>Seleccionar Departamentos</label>
+            <div id="departamentosList">
+                @foreach($departamentos as $departamento)
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="departamento{{ $departamento->id }}" name="departamentos[]" value="{{ $departamento->id }}">
+                    <label class="form-check-label" for="departamento{{ $departamento->id }}">
+                        {{ $departamento->nombre }}
+                    </label>
+                </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="archivo">Seleccionar archivo:</label>
+            <input type="file" name="archivo" id="archivo" accept=".pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .jpg, .jpeg, .png, .txt" />
+        </div>
         <button type="submit" class="btn btn-primary">Crear Alerta</button>
     </form>
+</div>
 
-    @push('js')
-    <script>
-        document.getElementById('tipo_alerta').addEventListener('change', function() {
-            const tipo = this.value;
-            if (tipo === 'departamento') {
-                document.getElementById('departamentos_field').classList.remove('d-none');
-                document.getElementById('usuarios_field').classList.add('d-none');
-            } else if (tipo === 'usuario') {
-                document.getElementById('usuarios_field').classList.remove('d-none');
-                document.getElementById('departamentos_field').classList.add('d-none');
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script>
+    $(document).ready(function() {
+        // Mostrar/ocultar secciones de usuarios o departamentos basadas en la selección del tipo de alerta
+        $('#tipo_alerta').change(function() {
+            const selectedType = $(this).val();
+            if (selectedType === 'usuarios') {
+                $('#usuarios').show(); // Muestra la sección de usuarios
+                $('#departamentos').hide(); // Oculta la sección de departamentos
+            } else if (selectedType === 'departamentos') {
+                $('#departamentos').show(); // Muestra la sección de departamentos
+                $('#usuarios').hide(); // Oculta la sección de usuarios
             } else {
-                document.getElementById('departamentos_field').classList.add('d-none');
-                document.getElementById('usuarios_field').classList.add('d-none');
+                $('#usuarios').hide(); // Oculta la sección de usuarios
+                $('#departamentos').hide(); // Oculta la sección de departamentos
             }
         });
-    </script>
-    @endpush
-@stop
+
+        // Manejo del cierre del modal
+        $('#createAlertForm').on('submit', function() {
+            // Cierra el modal al enviar el formulario
+            $('#createAlertModal').modal('hide');
+        });
+    });
+</script>
