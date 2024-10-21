@@ -21,7 +21,7 @@ Asegúrate de tener instalados los siguientes componentes en tu máquina:
 Primero, clona el repositorio en tu máquina local:
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repositorio.git
+git clone https://github.com/Jeremyabel710/LaravelDashboardgod.git
 cd tu-repositorio
 ```
 ## 📦 Instalación de Dependencias
