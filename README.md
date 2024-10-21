@@ -22,7 +22,7 @@ Primero, clona el repositorio en tu máquina local:
 
 ```bash
 git clone https://github.com/Jeremyabel710/LaravelDashboardgod.git
-cd tu-repositorio
+cd LaravelDashboardgod
 ```
 ## 📦 Instalación de Dependencias
 Instala las dependencias del proyecto usando Composer:
