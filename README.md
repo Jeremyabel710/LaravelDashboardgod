@@ -105,9 +105,6 @@ Si encuentras errores relacionados con la configuración de Git o bloqueos, veri
 ## 🤝 Contribuciones
 Si deseas contribuir a este proyecto, por favor abre un issue o un pull request. Cualquier ayuda es bienvenida.
 
-## 📜 Licencia
-Este proyecto está bajo la Licencia MIT. Consulta el archivo *LICENSE* para más detalles.
-
 ### Notas de Personalización
 
 Asegúrate de cambiar los enlaces y detalles específicos a tu proyecto. ¡Espero que te guste el  proyecto.
